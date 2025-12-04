@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business Gemini Pool 管理控制台</title>
+    <title>Business Gemini Pool Management Console</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
     
-    <!-- Socket.IO 客户端库 -->
+    <!-- Socket.IO Client Library -->
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
 <body>
@@ -35,24 +35,24 @@
         <header class="header">
             <div class="header-left">
                 <div class="logo">G</div>
-                <h1>Business Gemini Pool <span>管理控制台</span></h1>
+                <h1>Business Gemini Pool <span>Console</span></h1>
             </div>
             <div class="header-right">
-                <div class="status-indicator" id="serviceStatus">服务运行中</div>
+                <div class="status-indicator" id="serviceStatus">Service Running</div>
                 <div class="log-level-control">
-                    <label for="logLevelSelect">日志</label>
+                    <label for="logLevelSelect">Logs</label>
                     <select id="logLevelSelect" class="log-level-select" onchange="updateLogLevel(this.value)">
                         <option value="DEBUG">DEBUG</option>
                         <option value="INFO" selected>INFO</option>
                         <option value="ERROR">ERROR</option>
                     </select>
                 </div>
-                <button class="btn btn-outline" id="loginButton" style="padding: 8px 12px;" onclick="showLoginModal()">登录</button>
-                <a href="chat_history.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 14px; text-decoration: none; display: flex; align-items: center; gap: 6px;" title="进入在线对话">
+                <button class="btn btn-outline" id="loginButton" style="padding: 8px 12px;" onclick="showLoginModal()">Login</button>
+                <a href="chat_history.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 14px; text-decoration: none; display: flex; align-items: center; gap: 6px;" title="Go to Chat">
                     <svg class="icon" style="width: 16px; height: 16px;"><use xlink:href="#icon-message"></use></svg>
-                    在线对话
+                    Chat
                 </a>
-                <button class="theme-toggle" onclick="toggleTheme()" title="切换主题">
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
                     <span id="themeIconContainer">
                         <svg class="icon"><use xlink:href="#icon-sun"></use></svg>
                     </span>
@@ -64,29 +64,29 @@
         <div class="tabs">
             <button class="tab active" onclick="switchTab('accounts')">
                 <svg class="icon tab-icon"><use xlink:href="#icon-users"></use></svg>
-                账号管理
+                Accounts
             </button>
             <button class="tab" onclick="switchTab('models')">
                 <svg class="icon tab-icon"><use xlink:href="#icon-robot"></use></svg>
-                模型管理
+                Models
             </button>
             <button class="tab" onclick="switchTab('settings')">
                 <svg class="icon tab-icon"><use xlink:href="#icon-settings"></use></svg>
-                系统设置
+                Settings
             </button>
             <button class="tab" onclick="switchTab('apiKeys')">
                 <svg class="icon tab-icon"><use xlink:href="#icon-key"></use></svg>
-                API 密钥管理
+                API Keys
             </button>
         </div>
 
-        <!-- 账号管理 -->
+        <!-- Account Management -->
         <div id="accounts" class="tab-content active">
             <!-- Stats -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-info-top">
-                        <p>总账号数</p>
+                        <p>Total Accounts</p>
                         <div class="stat-icon blue"><svg class="icon"><use xlink:href="#icon-users"></use></svg></div>
                     </div>
                     <div class="stat-info-bottom">
@@ -95,7 +95,7 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-info-top">
-                        <p>可用账号</p>
+                        <p>Available</p>
                         <div class="stat-icon green"><svg class="icon"><use xlink:href="#icon-check"></use></svg></div>
                     </div>
                     <div class="stat-info-bottom">
@@ -104,7 +104,7 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-info-top">
-                        <p>不可用账号</p>
+                        <p>Unavailable</p>
                         <div class="stat-icon red"><svg class="icon"><use xlink:href="#icon-x"></use></svg></div>
                     </div>
                     <div class="stat-info-bottom">
@@ -113,7 +113,7 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-info-top">
-                        <p>当前轮训索引</p>
+                        <p>Rotation Index</p>
                         <div class="stat-icon yellow"><svg class="icon"><use xlink:href="#icon-refresh"></use></svg></div>
                     </div>
                     <div class="stat-info-bottom">
@@ -126,16 +126,16 @@
                 <div class="card-header">
                     <div class="card-title">
                         <svg class="icon card-title-icon"><use xlink:href="#icon-list"></use></svg>
-                        账号列表
+                        Account List
                     </div>
                     <div style="display: flex; gap: 12px; align-items: center;">
                         <a href="account_extractor.html" target="_blank" class="btn btn-outline" style="text-decoration: none;">
                             <svg class="icon"><use xlink:href="#icon-zap"></use></svg>
-                            账号提取工具
+                            Extractor Tool
                         </a>
                         <button class="btn btn-primary" onclick="showAddAccountModal()">
                             <svg class="icon"><use xlink:href="#icon-plus"></use></svg>
-                            添加账号
+                            Add Account
                         </button>
                     </div>
                 </div>
@@ -143,13 +143,13 @@
                     <table id="accountsTable">
                         <thead>
                             <tr>
-                                <th>序号</th>
+                                <th>#</th>
                                 <th>Team ID</th>
-                                <th>临时邮箱</th>
+                                <th>Temp Email</th>
                                 <th>User Agent</th>
-                                <th>状态</th>
-                                <th>配额使用</th>
-                                <th>操作</th>
+                                <th>Status</th>
+                                <th>Quota Usage</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="accountsTableBody"></tbody>
@@ -158,30 +158,30 @@
             </div>
         </div>
 
-        <!-- 模型管理 (HTML结构类似，图标已替换) -->
+        <!-- Model Management -->
         <div id="models" class="tab-content">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
                         <svg class="icon card-title-icon"><use xlink:href="#icon-robot"></use></svg>
-                        模型列表
+                        Model List
                     </div>
                     <button class="btn btn-primary" onclick="showAddModelModal()">
                         <svg class="icon"><use xlink:href="#icon-plus"></use></svg>
-                        添加模型
+                        Add Model
                     </button>
                 </div>
                 <div class="table-container">
                     <table id="modelsTable">
                         <thead>
                             <tr>
-                                <th>模型ID</th>
-                                <th>名称</th>
-                                <th>描述</th>
-                                <th>上下文长度</th>
-                                <th>最大Token</th>
-                                <th>状态</th>
-                                <th>操作</th>
+                                <th>Model ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Context Length</th>
+                                <th>Max Tokens</th>
+                                <th>Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="modelsTableBody"></tbody>
@@ -190,27 +190,27 @@
             </div>
         </div>
 
-        <!-- 系统设置 (HTML结构类似，图标已替换) -->
+        <!-- System Settings -->
         <div id="settings" class="tab-content">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
                          <svg class="icon card-title-icon"><use xlink:href="#icon-settings"></use></svg>
-                        系统配置
+                        System Config
                     </div>
                 </div>
                 <div class="card-body">
                     <form id="settingsForm">
                         <div class="settings-section">
-                            <h3>代理设置</h3>
+                            <h3>Proxy Settings</h3>
                             <div class="form-group">
                                 <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: var(--card-bg); border: 2px solid var(--border); border-radius: var(--radius-md); transition: var(--transition-ease);" id="proxyContainer">
                                     <div style="flex: 1;">
                                         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
                                             <svg class="icon" style="width: 20px; height: 20px; color: var(--primary);"><use xlink:href="#icon-server"></use></svg>
-                                            <label style="font-size: 16px; font-weight: 600; color: var(--text-main); cursor: pointer; margin: 0;" for="proxyEnabled">启用代理</label>
+                                            <label style="font-size: 16px; font-weight: 600; color: var(--text-main); cursor: pointer; margin: 0;" for="proxyEnabled">Enable Proxy</label>
                                         </div>
-                                        <small style="display: block; color: var(--text-muted); margin-left: 32px;">启用后才会使用配置的代理地址，禁用时不会使用系统默认代理</small>
+                                        <small style="display: block; color: var(--text-muted); margin-left: 32px;">The configured proxy address is only used when enabled. When disabled, the system default proxy is ignored.</small>
                                     </div>
                                     <label class="toggle-switch" for="proxyEnabled" style="position: relative; display: inline-block; width: 56px; height: 32px; cursor: pointer; flex-shrink: 0;">
                                         <input type="checkbox" id="proxyEnabled" style="opacity: 0; width: 0; height: 0;">
@@ -219,69 +219,69 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="proxyUrl">代理地址</label>
+                                <label class="form-label" for="proxyUrl">Proxy Address</label>
                                 <input type="text" class="form-input" id="proxyUrl" placeholder="http://127.0.0.1:7890">
-                                <small>用于访问Google API的代理服务器地址</small>
+                                <small>Proxy server address for accessing Google APIs</small>
                                 <div class="proxy-status" id="proxyStatus"></div>
                             </div>
                             <div style="display: flex; gap: 12px;">
                                 <button type="button" class="btn btn-outline" onclick="testProxy()">
-                                    测试代理
+                                    Test Proxy
                                 </button>
                                 <button type="button" class="btn btn-primary" onclick="saveSettings()">
-                                    保存设置
+                                    Save Settings
                                 </button>
                             </div>
                         </div>
 
                         <div class="settings-section">
-                            <h3>文件上传服务 (cfbed)</h3>
+                            <h3>File Upload Service (cfbed)</h3>
                             <div class="form-group">
-                                <label class="form-label" for="uploadEndpoint">上传端点</label>
+                                <label class="form-label" for="uploadEndpoint">Upload Endpoint</label>
                                 <input type="text" class="form-input" id="uploadEndpoint" placeholder="https://cfbed.sanyue.de/upload">
-                                <small>cfbed 上传服务地址，配置后将自动上传生成的图片/视频到公网</small>
+                                <small>cfbed upload service address. Generated images/videos will be automatically uploaded to the public web.</small>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="uploadApiToken">API Token</label>
-                                <input type="password" class="form-input" id="uploadApiToken" placeholder="从 cfbed 管理界面获取的 API Token">
-                                <small>需要 upload 权限的 API Token</small>
+                                <input type="password" class="form-input" id="uploadApiToken" placeholder="API Token from cfbed management interface">
+                                <small>API Token with upload permissions</small>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="imageBaseUrl">图片基础 URL（可选）</label>
+                                <label class="form-label" for="imageBaseUrl">Image Base URL (Optional)</label>
                                 <input type="text" class="form-input" id="imageBaseUrl" placeholder="https://cfbed.sanyue.de">
-                                <small>图片访问基础 URL，留空则从上传端点自动推断</small>
+                                <small>Base URL for accessing images. If empty, it will be inferred from the upload endpoint.</small>
                             </div>
                             <div style="display: flex; gap: 12px;">
                                 <button type="button" class="btn btn-primary" onclick="saveSettings()">
-                                    保存设置
+                                    Save Settings
                                 </button>
                             </div>
                         </div>
 
                         <div class="settings-section">
-                            <h3>临时邮箱 Worker API</h3>
+                            <h3>Temp Mail Worker API</h3>
                             <div class="form-group">
-                                <label class="form-label" for="tempmailWorkerUrl">Worker API 地址（可选）</label>
+                                <label class="form-label" for="tempmailWorkerUrl">Worker API URL (Optional)</label>
                                 <input type="text" class="form-input" id="tempmailWorkerUrl" placeholder="https://worker-name.your-subdomain.workers.dev">
-                                <small>临时邮箱 Worker API 地址，如果 Worker 和前端在不同域名，需要配置此地址。留空则从临时邮箱 URL 自动提取。</small>
+                                <small>Temp Mail Worker API URL. Required if the Worker and frontend are on different domains. Leave empty to extract from the Temp Email URL.</small>
                             </div>
                             <div style="display: flex; gap: 12px;">
                                 <button type="button" class="btn btn-primary" onclick="saveSettings()">
-                                    保存设置
+                                    Save Settings
                                 </button>
                             </div>
                         </div>
 
                         <div class="settings-section">
-                            <h3>Cookie 自动刷新</h3>
+                            <h3>Auto Cookie Refresh</h3>
                             <div class="form-group">
                                 <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: var(--card-bg); border: 2px solid var(--border); border-radius: var(--radius-md); transition: var(--transition-ease);" id="autoRefreshContainer">
                                     <div style="flex: 1;">
                                         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
                                             <svg class="icon" style="width: 20px; height: 20px; color: var(--primary);"><use xlink:href="#icon-refresh"></use></svg>
-                                            <label style="font-size: 16px; font-weight: 600; color: var(--text-main); cursor: pointer; margin: 0;" for="autoRefreshCookie">启用自动刷新 Cookie</label>
+                                            <label style="font-size: 16px; font-weight: 600; color: var(--text-main); cursor: pointer; margin: 0;" for="autoRefreshCookie">Enable Auto Cookie Refresh</label>
                                         </div>
-                                        <small style="display: block; color: var(--text-muted); margin-left: 32px;">启用后，系统将每1小时自动检查并刷新过期的 Cookie（需要安装 Playwright: pip install playwright && playwright install chromium）</small>
+                                        <small style="display: block; color: var(--text-muted); margin-left: 32px;">If enabled, the system checks and refreshes expired cookies every hour (Requires Playwright: pip install playwright && playwright install chromium)</small>
                                     </div>
                                     <label class="toggle-switch" for="autoRefreshCookie" style="position: relative; display: inline-block; width: 56px; height: 32px; cursor: pointer; flex-shrink: 0;">
                                         <input type="checkbox" id="autoRefreshCookie" onchange="toggleAutoRefresh()" style="opacity: 0; width: 0; height: 0;">
@@ -297,35 +297,35 @@
                         </div>
 
                         <div class="settings-section">
-                            <h3><svg class="icon" style="width: 1em; height: 1em; vertical-align: -2px; margin-right: 8px;"><use xlink:href="#icon-server"></use></svg>服务信息</h3>
+                            <h3><svg class="icon" style="width: 1em; height: 1em; vertical-align: -2px; margin-right: 8px;"><use xlink:href="#icon-server"></use></svg>Service Info</h3>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label class="form-label">服务端口</label>
+                                    <label class="form-label">Service Port</label>
                                     <input type="text" class="form-input" id="servicePort" value="8000" disabled>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">API地址</label>
+                                    <label class="form-label">API Address</label>
                                     <input type="text" class="form-input" id="apiUrl" value="http://localhost:8000/v1" disabled>
                                 </div>
                             </div>
                         </div>
 
                         <div class="settings-section">
-                            <h3>配置文件</h3>
+                            <h3>Configuration File</h3>
                              <div class="form-group">
-                                <label class="form-label" for="configJson">当前配置 (JSON)</label>
+                                <label class="form-label" for="configJson">Current Config (JSON)</label>
                                 <textarea class="form-textarea" id="configJson" rows="15" readonly></textarea>
-                                <small>配置文件路径: business_gemini_session.json</small>
+                                <small>Config File Path: business_gemini_session.json</small>
                             </div>
                              <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                                 <button type="button" class="btn btn-outline" onclick="refreshConfig()">
-                                    刷新配置
+                                    Refresh Config
                                 </button>
                                 <button type="button" class="btn btn-outline" onclick="downloadConfig()">
-                                    下载配置
+                                    Download Config
                                 </button>
                                 <button type="button" class="btn btn-primary" onclick="uploadConfig()">
-                                    导入配置
+                                    Import Config
                                 </button>
                                 <input type="file" id="configFileInput" accept=".json" style="display: none;" onchange="handleConfigUpload(event)">
                             </div>
@@ -335,268 +335,268 @@
             </div>
         </div>
 
-        <!-- API 密钥管理 -->
+        <!-- API Key Management -->
         <div id="apiKeys" class="tab-content">
             <div class="card">
                 <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
                     <div class="card-title" style="display:flex; align-items:center; gap:8px;">
                         <svg class="icon card-title-icon"><use xlink:href="#icon-key"></use></svg>
-                        API 密钥管理
+                        API Key Management
                     </div>
                     <div class="token-actions">
-                        <button class="btn btn-primary" type="button" onclick="openCreateApiKeyModal()">创建 API 密钥</button>
-                        <button class="btn btn-outline" type="button" onclick="loadApiKeys()">刷新列表</button>
+                        <button class="btn btn-primary" type="button" onclick="openCreateApiKeyModal()">Create API Key</button>
+                        <button class="btn btn-outline" type="button" onclick="loadApiKeys()">Refresh List</button>
                     </div>
                 </div>
                 <div class="card-body">
                     <div id="apiKeysListMain" style="margin-top: 16px;">
-                        <div class="empty-state">加载中...</div>
+                        <div class="empty-state">Loading...</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 模态框 (已优化关闭按钮) -->
+    <!-- Modals -->
     <div class="modal" id="addAccountModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>添加账号</h3>
-                <button class="modal-close" onclick="closeModal('addAccountModal')" title="关闭">&times;</button>
+                <h3>Add Account</h3>
+                <button class="modal-close" onclick="closeModal('addAccountModal')" title="Close">&times;</button>
             </div>
-            <!-- Modal Body and Footer ... (No functional changes needed) -->
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label" for="newAccountJson">粘贴账号JSON（可直接复制工具输出）</label>
+                    <label class="form-label" for="newAccountJson">Paste Account JSON (from extractor tool)</label>
                     <textarea class="form-textarea" id="newAccountJson" placeholder='{"team_id":"...","secure_c_ses":"...","host_c_oses":"...","csesidx":"...","user_agent":"..."}' rows="4"></textarea>
                     <div style="display:flex; gap:8px; margin-top:8px;">
-                        <button class="btn btn-outline btn-sm" type="button" onclick="parseAccountJson()">解析填充</button>
-                        <button class="btn btn-outline btn-sm" type="button" onclick="pasteAccountJson()">从剪贴板读取并填充</button>
+                        <button class="btn btn-outline btn-sm" type="button" onclick="parseAccountJson()">Parse & Fill</button>
+                        <button class="btn btn-outline btn-sm" type="button" onclick="pasteAccountJson()">Read from Clipboard & Fill</button>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="newTeamId">Team ID</label>
-                    <input type="text" class="form-input" id="newTeamId" placeholder="输入Team ID">
+                    <input type="text" class="form-input" id="newTeamId" placeholder="Enter Team ID">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="newSecureCses">Cookie中的__Secure-C_SES</label>
-                    <textarea class="form-textarea" id="newSecureCses" placeholder="输入Cookie中的__Secure-C_SES" rows="3"></textarea>
+                    <label class="form-label" for="newSecureCses">Cookie __Secure-C_SES</label>
+                    <textarea class="form-textarea" id="newSecureCses" placeholder="Enter __Secure-C_SES from Cookie" rows="3"></textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="newHostCoses">Cookie中的__Host-C_OSES</label>
-                    <textarea class="form-textarea" id="newHostCoses" placeholder="输入Cookie中的__Host-C_OSES" rows="3"></textarea>
+                    <label class="form-label" for="newHostCoses">Cookie __Host-C_OSES</label>
+                    <textarea class="form-textarea" id="newHostCoses" placeholder="Enter __Host-C_OSES from Cookie" rows="3"></textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="newCsesidx">CSESIDX</label>
-                    <input type="text" class="form-input" id="newCsesidx" placeholder="输入CSESIDX">
+                    <input type="text" class="form-input" id="newCsesidx" placeholder="Enter CSESIDX">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="newUserAgent">User Agent</label>
-                    <input type="text" class="form-input" id="newUserAgent" placeholder="输入User Agent">
+                    <input type="text" class="form-input" id="newUserAgent" placeholder="Enter User Agent">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeModal('addAccountModal')">取消</button>
-                <button class="btn btn-primary" onclick="saveNewAccount()">保存</button>
+                <button class="btn btn-outline" onclick="closeModal('addAccountModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveNewAccount()">Save</button>
             </div>
         </div>
     </div>
-    <!-- 编辑账号模态框 -->
+    
+    <!-- Edit Account Modal -->
     <div class="modal" id="editAccountModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>编辑账号</h3>
-                <button class="modal-close" onclick="closeModal('editAccountModal')" title="关闭">&times;</button>
+                <h3>Edit Account</h3>
+                <button class="modal-close" onclick="closeModal('editAccountModal')" title="Close">&times;</button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="editAccountId">
                 <div class="form-group">
                     <label class="form-label" for="editTeamId">Team ID</label>
-                    <input type="text" class="form-input" id="editTeamId" placeholder="输入Team ID">
+                    <input type="text" class="form-input" id="editTeamId" placeholder="Enter Team ID">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="editSecureCses">Cookie中的__Secure-C_SES</label>
-                    <textarea class="form-textarea" id="editSecureCses" placeholder="输入Secure C Ses" rows="3"></textarea>
+                    <label class="form-label" for="editSecureCses">Cookie __Secure-C_SES</label>
+                    <textarea class="form-textarea" id="editSecureCses" placeholder="Enter Secure C Ses" rows="3"></textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="editHostCoses">Cookie中的__Host-C_OSES</label>
-                    <textarea class="form-textarea" id="editHostCoses" placeholder="输入Host C Oses" rows="3"></textarea>
+                    <label class="form-label" for="editHostCoses">Cookie __Host-C_OSES</label>
+                    <textarea class="form-textarea" id="editHostCoses" placeholder="Enter Host C Oses" rows="3"></textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="editCsesidx">CSESIDX</label>
-                    <input type="text" class="form-input" id="editCsesidx" placeholder="输入CSESIDX">
+                    <input type="text" class="form-input" id="editCsesidx" placeholder="Enter CSESIDX">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="editUserAgent">User Agent</label>
-                    <input type="text" class="form-input" id="editUserAgent" placeholder="输入User Agent">
+                    <input type="text" class="form-input" id="editUserAgent" placeholder="Enter User Agent">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="editTempmailName">临时邮箱名称</label>
-                    <input type="text" class="form-input" id="editTempmailName" placeholder="输入临时邮箱名称（用于显示）">
+                    <label class="form-label" for="editTempmailName">Temp Email Name</label>
+                    <input type="text" class="form-input" id="editTempmailName" placeholder="Enter Temp Email Name (for display)">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="editTempmailUrl">临时邮箱 URL</label>
-                    <textarea class="form-textarea" id="editTempmailUrl" placeholder="输入临时邮箱 URL（用于自动刷新，包含 JWT token）" rows="2"></textarea>
-                    <small style="color: var(--text-muted); font-size: 11px;">例如: https://tempmail.example.com/?jwt=...</small>
+                    <label class="form-label" for="editTempmailUrl">Temp Email URL</label>
+                    <textarea class="form-textarea" id="editTempmailUrl" placeholder="Enter Temp Email URL (for auto refresh, includes JWT token)" rows="2"></textarea>
+                    <small style="color: var(--text-muted); font-size: 11px;">Example: https://tempmail.example.com/?jwt=...</small>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeModal('editAccountModal')">取消</button>
-                <button class="btn btn-primary" onclick="updateAccount()">保存</button>
+                <button class="btn btn-outline" onclick="closeModal('editAccountModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="updateAccount()">Save</button>
             </div>
         </div>
     </div>
 
-    <!-- 刷新Cookie模态框 -->
+    <!-- Refresh Cookie Modal -->
     <div class="modal" id="refreshCookieModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>刷新账号Cookie</h3>
-                <button class="modal-close" onclick="closeModal('refreshCookieModal')" title="关闭">&times;</button>
+                <h3>Refresh Account Cookie</h3>
+                <button class="modal-close" onclick="closeModal('refreshCookieModal')" title="Close">&times;</button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="refreshAccountId">
-                <p class="text-muted" style="margin-bottom: 16px;">请输入新的Cookie值来刷新账号认证信息。刷新后将清除JWT缓存。</p>
+                <p class="text-muted" style="margin-bottom: 16px;">Please enter the new Cookie value to refresh account authentication. Refreshing will clear the JWT cache.</p>
                 <div class="form-group">
-                    <label class="form-label" for="refreshSecureCses">Cookie中的__Secure-C_SES <span style="color: var(--danger);">*</span></label>
-                    <textarea class="form-textarea" id="refreshSecureCses" placeholder="输入新的__Secure-C_SES值" rows="3"></textarea>
+                    <label class="form-label" for="refreshSecureCses">Cookie __Secure-C_SES <span style="color: var(--danger);">*</span></label>
+                    <textarea class="form-textarea" id="refreshSecureCses" placeholder="Enter new __Secure-C_SES value" rows="3"></textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="refreshHostCoses">Cookie中的__Host-C_OSES <span style="color: var(--danger);">*</span></label>
-                    <textarea class="form-textarea" id="refreshHostCoses" placeholder="输入新的__Host-C_OSES值" rows="3"></textarea>
+                    <label class="form-label" for="refreshHostCoses">Cookie __Host-C_OSES <span style="color: var(--danger);">*</span></label>
+                    <textarea class="form-textarea" id="refreshHostCoses" placeholder="Enter new __Host-C_OSES value" rows="3"></textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="refreshCsesidx">CSESIDX (可选)</label>
-                    <input type="text" class="form-input" id="refreshCsesidx" placeholder="输入CSESIDX值">
+                    <label class="form-label" for="refreshCsesidx">CSESIDX (Optional)</label>
+                    <input type="text" class="form-input" id="refreshCsesidx" placeholder="Enter CSESIDX value">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">从JSON粘贴 (可选)</label>
-                    <textarea class="form-textarea" id="refreshCookieJson" placeholder="粘贴Cookie JSON数据" rows="3"></textarea>
-                    <button class="btn btn-outline" style="margin-top: 8px;" onclick="pasteRefreshCookieJson()">📋 粘贴并解析</button>
+                    <label class="form-label" for="refreshCookieJson">Paste from JSON (Optional)</label>
+                    <textarea class="form-textarea" id="refreshCookieJson" placeholder="Paste Cookie JSON data" rows="3"></textarea>
+                    <button class="btn btn-outline" style="margin-top: 8px;" onclick="pasteRefreshCookieJson()">📋 Paste & Parse</button>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeModal('refreshCookieModal')">取消</button>
-                <button class="btn btn-outline" onclick="autoRefreshAccountCookie()" id="autoRefreshBtn" style="display: none;">自动刷新</button>
-                <button class="btn btn-primary" onclick="refreshAccountCookie()">手动刷新</button>
+                <button class="btn btn-outline" onclick="closeModal('refreshCookieModal')">Cancel</button>
+                <button class="btn btn-outline" onclick="autoRefreshAccountCookie()" id="autoRefreshBtn" style="display: none;">Auto Refresh</button>
+                <button class="btn btn-primary" onclick="refreshAccountCookie()">Manual Refresh</button>
             </div>
         </div>
     </div>
 
-    <!-- 添加模型模态框 -->
+    <!-- Add Model Modal -->
     <div class="modal" id="addModelModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>添加模型</h3>
-                <button class="modal-close" onclick="closeModal('addModelModal')" title="关闭">&times;</button>
+                <h3>Add Model</h3>
+                <button class="modal-close" onclick="closeModal('addModelModal')" title="Close">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label" for="newModelId">模型ID</label>
-                        <input type="text" class="form-input" id="newModelId" placeholder="如: gemini-pro">
+                        <label class="form-label" for="newModelId">Model ID</label>
+                        <input type="text" class="form-input" id="newModelId" placeholder="e.g.: gemini-pro">
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="newModelName">模型名称</label>
-                        <input type="text" class="form-input" id="newModelName" placeholder="如: Gemini Pro">
+                        <label class="form-label" for="newModelName">Model Name</label>
+                        <input type="text" class="form-input" id="newModelName" placeholder="e.g.: Gemini Pro">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="newModelDesc">描述</label>
-                    <input type="text" class="form-input" id="newModelDesc" placeholder="模型描述">
+                    <label class="form-label" for="newModelDesc">Description</label>
+                    <input type="text" class="form-input" id="newModelDesc" placeholder="Model description">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="newApiModelId">API模型ID（可选）</label>
-                    <input type="text" class="form-input" id="newApiModelId" placeholder="实际的Gemini API模型ID，如: gemini-3-pro-preview">
-                    <small class="text-muted">如果不设置，将使用上面的模型ID</small>
+                    <label class="form-label" for="newApiModelId">API Model ID (Optional)</label>
+                    <input type="text" class="form-input" id="newApiModelId" placeholder="Actual Gemini API Model ID, e.g.: gemini-3-pro-preview">
+                    <small class="text-muted">If unset, Model ID above will be used.</small>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label" for="newContextLength">上下文长度</label>
+                        <label class="form-label" for="newContextLength">Context Length</label>
                         <input type="number" class="form-input" id="newContextLength" value="32768">
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="newMaxTokens">最大Token</label>
+                        <label class="form-label" for="newMaxTokens">Max Tokens</label>
                         <input type="number" class="form-input" id="newMaxTokens" value="8192">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeModal('addModelModal')">取消</button>
-                <button class="btn btn-primary" onclick="saveNewModel()">保存</button>
+                <button class="btn btn-outline" onclick="closeModal('addModelModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveNewModel()">Save</button>
             </div>
         </div>
     </div>
 
-    <!-- 登录模态框 -->
+    <!-- Login Modal -->
     <div class="modal" id="loginModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>管理员登录</h3>
-                <button class="modal-close" onclick="closeModal('loginModal')" title="关闭">&times;</button>
+                <h3>Admin Login</h3>
+                <button class="modal-close" onclick="closeModal('loginModal')" title="Close">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label" for="loginPassword">后台密码</label>
-                    <input type="password" class="form-input" id="loginPassword" placeholder="输入后台密码">
+                    <label class="form-label" for="loginPassword">Admin Password</label>
+                    <input type="password" class="form-input" id="loginPassword" placeholder="Enter admin password">
                 </div>
-                <p class="text-muted" style="font-size: 12px;">首次登录将设置当前密码为后台密码。</p>
+                <p class="text-muted" style="font-size: 12px;">The first login will set the current password as the admin password.</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeModal('loginModal')">取消</button>
-                <button class="btn btn-primary" onclick="submitLogin()">登录</button>
+                <button class="btn btn-outline" onclick="closeModal('loginModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="submitLogin()">Login</button>
             </div>
         </div>
     </div>
 
-    <!-- 编辑模型模态框 -->
+    <!-- Edit Model Modal -->
     <div class="modal" id="editModelModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>编辑模型</h3>
-                <button class="modal-close" onclick="closeModal('editModelModal')" title="关闭">&times;</button>
+                <h3>Edit Model</h3>
+                <button class="modal-close" onclick="closeModal('editModelModal')" title="Close">&times;</button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="editModelOriginalId">
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label" for="editModelId">模型ID</label>
-                        <input type="text" class="form-input" id="editModelId" placeholder="如: gemini-pro">
+                        <label class="form-label" for="editModelId">Model ID</label>
+                        <input type="text" class="form-input" id="editModelId" placeholder="e.g.: gemini-pro">
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="editModelName">模型名称</label>
-                        <input type="text" class="form-input" id="editModelName" placeholder="如: Gemini Pro">
+                        <label class="form-label" for="editModelName">Model Name</label>
+                        <input type="text" class="form-input" id="editModelName" placeholder="e.g.: Gemini Pro">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="editModelDesc">描述</label>
-                    <input type="text" class="form-input" id="editModelDesc" placeholder="模型描述">
+                    <label class="form-label" for="editModelDesc">Description</label>
+                    <input type="text" class="form-input" id="editModelDesc" placeholder="Model description">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="editApiModelId">API模型ID（可选）</label>
-                    <input type="text" class="form-input" id="editApiModelId" placeholder="实际的Gemini API模型ID，如: gemini-3-pro-preview">
-                    <small class="text-muted">如果不设置，将使用上面的模型ID</small>
+                    <label class="form-label" for="editApiModelId">API Model ID (Optional)</label>
+                    <input type="text" class="form-input" id="editApiModelId" placeholder="Actual Gemini API Model ID, e.g.: gemini-3-pro-preview">
+                    <small class="text-muted">If unset, Model ID above will be used.</small>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label" for="editContextLength">上下文长度</label>
+                        <label class="form-label" for="editContextLength">Context Length</label>
                         <input type="number" class="form-input" id="editContextLength">
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="editMaxTokens">最大Token</label>
+                        <label class="form-label" for="editMaxTokens">Max Tokens</label>
                         <input type="number" class="form-input" id="editMaxTokens">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeModal('editModelModal')">取消</button>
-                <button class="btn btn-primary" onclick="updateModel()">保存</button>
+                <button class="btn btn-outline" onclick="closeModal('editModelModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="updateModel()">Save</button>
             </div>
         </div>
     </div>
 
 
-    <!-- Toast通知 -->
+    <!-- Toast Notifications -->
     <div id="toastContainer" class="toast-container">
         <!-- Toasts will be injected here by JS -->
     </div>
@@ -605,68 +605,68 @@
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     
 
-    <!-- 创建 API 密钥模态框 -->
+    <!-- Create API Key Modal -->
     <div class="modal" id="createApiKeyModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>创建 API 密钥</h3>
+                <h3>Create API Key</h3>
                 <button class="modal-close" onclick="closeModal('createApiKeyModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label" for="newApiKeyName">密钥名称 *</label>
-                    <input type="text" class="form-input" id="newApiKeyName" placeholder="例如: 生产环境密钥">
+                    <label class="form-label" for="newApiKeyName">Key Name *</label>
+                    <input type="text" class="form-input" id="newApiKeyName" placeholder="e.g.: Production Key">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="newApiKeyDescription">描述（可选）</label>
-                    <textarea class="form-textarea" id="newApiKeyDescription" placeholder="密钥用途说明" rows="3"></textarea>
+                    <label class="form-label" for="newApiKeyDescription">Description (Optional)</label>
+                    <textarea class="form-textarea" id="newApiKeyDescription" placeholder="Key usage description" rows="3"></textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="newApiKeyExpiresDays">过期天数（可选）</label>
-                    <input type="number" class="form-input" id="newApiKeyExpiresDays" placeholder="留空表示永不过期" min="1">
-                    <small>设置密钥过期天数，留空表示永不过期</small>
+                    <label class="form-label" for="newApiKeyExpiresDays">Expires In Days (Optional)</label>
+                    <input type="number" class="form-input" id="newApiKeyExpiresDays" placeholder="Leave empty for no expiration" min="1">
+                    <small>Set expiration in days, leave empty for permanent key</small>
                 </div>
                 <div id="newApiKeyResult" style="display: none;"></div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeModal('createApiKeyModal')">取消</button>
-                <button class="btn btn-primary" onclick="createApiKey()">创建</button>
+                <button class="btn btn-outline" onclick="closeModal('createApiKeyModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="createApiKey()">Create</button>
             </div>
         </div>
     </div>
 
-    <!-- API 密钥统计模态框 -->
+    <!-- API Key Stats Modal -->
     <div class="modal" id="apiKeyStatsModal">
         <div class="modal-content" style="max-width: 800px;">
             <div class="modal-header">
-                <h3>API 密钥统计</h3>
+                <h3>API Key Stats</h3>
                 <button class="modal-close" onclick="closeModal('apiKeyStatsModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div id="apiKeyStatsContent">
-                    <div class="empty-state">加载中...</div>
+                    <div class="empty-state">Loading...</div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeModal('apiKeyStatsModal')">关闭</button>
+                <button class="btn btn-outline" onclick="closeModal('apiKeyStatsModal')">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- API 密钥日志模态框 -->
+    <!-- API Key Logs Modal -->
     <div class="modal" id="apiKeyLogsModal">
         <div class="modal-content" style="max-width: 1000px;">
             <div class="modal-header">
-                <h3>API 调用日志</h3>
+                <h3>API Call Logs</h3>
                 <button class="modal-close" onclick="closeModal('apiKeyLogsModal')">&times;</button>
             </div>
             <div class="modal-body">
                 <div id="apiKeyLogsContent">
-                    <div class="empty-state">加载中...</div>
+                    <div class="empty-state">Loading...</div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeModal('apiKeyLogsModal')">关闭</button>
+                <button class="btn btn-outline" onclick="closeModal('apiKeyLogsModal')">Close</button>
             </div>
         </div>
     </div>
