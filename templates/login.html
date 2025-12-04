@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business Gemini 登录</title>
+    <title>Business Gemini Login</title>
     <style>
         :root {
             color-scheme: light dark;
@@ -110,15 +110,15 @@
 </head>
 <body>
     <div class="card">
-        <h1>欢迎回来</h1>
-        <p>输入后台密码以访问 Business Gemini 管理面板。</p>
+        <h1>Welcome Back</h1>
+        <p>Enter the admin password to access the Business Gemini management panel.</p>
         <form id="loginForm">
-            <label for="password">后台密码</label>
-            <input type="password" id="password" placeholder="请输入密码" autocomplete="current-password" required>
-            <button type="submit">登录</button>
+            <label for="password">Admin Password</label>
+            <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password" required>
+            <button type="submit">Login</button>
             <div class="error-message" id="errorBox"></div>
         </form>
-        <div class="footer">首次登录将自动设置密码。请妥善保管。</div>
+        <div class="footer">The password will be set automatically on the first login. Please keep it safe.</div>
     </div>
     <script>
         const ADMIN_TOKEN_KEY = 'admin_token';
@@ -129,7 +129,7 @@
             errorBox.style.display = 'none';
             const password = document.getElementById('password').value.trim();
             if (!password) {
-                showError('请输入密码');
+                showError('Please enter your password');
                 return;
             }
             try {
@@ -140,14 +140,14 @@
                 });
                 const data = await res.json();
                 if (!res.ok || data.error) {
-                    throw new Error(data.error || '登录失败');
+                    throw new Error(data.error || 'Login failed');
                 }
                 if (data.token) {
                     localStorage.setItem(ADMIN_TOKEN_KEY, data.token);
                 }
                 window.location.href = '/';
             } catch (err) {
-                showError(err.message || '登录失败，请重试');
+                showError(err.message || 'Login failed, please try again');
             }
         });
         function showError(message) {
@@ -157,4 +157,3 @@
     </script>
 </body>
 </html>
-
