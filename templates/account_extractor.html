@@ -1,241 +1,792 @@
-body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        background: #f5f5f5;
-        padding: 20px;
-        color: #333;
-    }
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Info Extractor - Business Gemini Pool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-        max-width: 900px;
-        margin: 0 auto;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        padding: 32px;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            color: #333;
+        }
 
-    h1 {
-        font-size: 24px;
-        margin-bottom: 8px;
-        color: #1a1a1a;
-    }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 32px;
+        }
 
-    .subtitle {
-        color: #666;
-        margin-bottom: 32px;
-        font-size: 14px;
-    }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
 
-    .section {
-        margin-bottom: 32px;
-        padding: 24px;
-        background: #fafafa;
-        border-radius: 8px;
-        border: 1px solid #e0e0e0;
-    }
+        .subtitle {
+            color: #666;
+            margin-bottom: 32px;
+            font-size: 14px;
+        }
 
-    .section h2 {
-        font-size: 18px;
-        margin-bottom: 16px;
-        color: #1a1a1a;
-    }
+        .section {
+            margin-bottom: 32px;
+            padding: 24px;
+            background: #fafafa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
 
-    .form-group {
-        margin-bottom: 20px;
-    }
+        .section h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
 
-    label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 500;
-        color: #333;
-        font-size: 14px;
-    }
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-    input, textarea {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        font-size: 14px;
-        font-family: inherit;
-        transition: border-color 0.2s;
-    }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+            font-size: 14px;
+        }
 
-    input:focus, textarea:focus {
-        outline: none;
-        border-color: #4285f4;
-        box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
-    }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
 
-    textarea {
-        resize: vertical;
-        min-height: 80px;
-    }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4285f4;
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+        }
 
-    .btn {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-    }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
 
-    .btn-primary {
-        background: #4285f4;
-        color: white;
-    }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-    .btn-primary:hover {
-        background: #3367d6;
-    }
+        .btn-primary {
+            background: #4285f4;
+            color: white;
+        }
 
-    .btn-secondary {
-        background: #f1f3f4;
-        color: #333;
-    }
+        .btn-primary:hover {
+            background: #3367d6;
+        }
 
-    .btn-secondary:hover {
-        background: #e8eaed;
-    }
+        .btn-secondary {
+            background: #f1f3f4;
+            color: #333;
+        }
 
-    .btn-success {
-        background: #34a853;
-        color: white;
-    }
+        .btn-secondary:hover {
+            background: #e8eaed;
+        }
 
-    .btn-success:hover {
-        background: #2d8e47;
-    }
+        .btn-success {
+            background: #34a853;
+            color: white;
+        }
 
-    .code-block {
-        background: #1e1e1e;
-        color: #d4d4d4;
-        padding: 16px;
-        border-radius: 6px;
-        font-family: 'Courier New', monospace;
-        font-size: 13px;
-        overflow-x: auto;
-        margin: 12px 0;
-        position: relative;
-    }
+        .btn-success:hover {
+            background: #2d8e47;
+        }
 
-    .code-block code {
-        white-space: pre;
-    }
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 12px 0;
+            position: relative;
+        }
 
-    .copy-btn {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        padding: 6px 12px;
-        background: rgba(255,255,255,0.1);
-        color: #d4d4d4;
-        border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 4px;
-        font-size: 12px;
-        cursor: pointer;
-    }
+        .code-block code {
+            white-space: pre;
+        }
 
-    .copy-btn:hover {
-        background: rgba(255,255,255,0.2);
-    }
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 6px 12px;
+            background: rgba(255,255,255,0.1);
+            color: #d4d4d4;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
 
-    .alert {
-        padding: 12px 16px;
-        border-radius: 6px;
-        margin-bottom: 16px;
-        font-size: 14px;
-    }
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
 
-    .alert-info {
-        background: #e3f2fd;
-        color: #1976d2;
-        border: 1px solid #90caf9;
-    }
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
 
-    .alert-warning {
-        background: #fff3e0;
-        color: #f57c00;
-        border: 1px solid #ffb74d;
-    }
+        .alert-info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #90caf9;
+        }
 
-    .alert-success {
-        background: #e8f5e9;
-        color: #2e7d32;
-        border: 1px solid #81c784;
-    }
+        .alert-warning {
+            background: #fff3e0;
+            color: #f57c00;
+            border: 1px solid #ffb74d;
+        }
 
-    .steps {
-        list-style: none;
-        counter-reset: step-counter;
-    }
+        .alert-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #81c784;
+        }
 
-    .steps li {
-        counter-increment: step-counter;
-        margin-bottom: 16px;
-        padding-left: 40px;
-        position: relative;
-    }
+        .steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
 
-    .steps li::before {
-        content: counter(step-counter);
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 28px;
-        height: 28px;
-        background: #4285f4;
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        font-size: 14px;
-    }
+        .steps li {
+            counter-increment: step-counter;
+            margin-bottom: 16px;
+            padding-left: 40px;
+            position: relative;
+        }
 
-    .result-box {
-        background: #f8f9fa;
-        border: 2px dashed #dee2e6;
-        border-radius: 6px;
-        padding: 16px;
-        margin-top: 16px;
-    }
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: #4285f4;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
 
-    .result-box.filled {
-        border-color: #34a853;
-        background: #e8f5e9;
-    }
+        .result-box {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 6px;
+            padding: 16px;
+            margin-top: 16px;
+        }
 
-    .btn-group {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-top: 12px;
-    }
+        .result-box.filled {
+            border-color: #34a853;
+            background: #e8f5e9;
+        }
 
-    .badge {
-        display: inline-block;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 500;
-        margin-left: 8px;
-    }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
 
-    .badge-success {
-        background: #e8f5e9;
-        color: #2e7d32;
-    }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
 
-    .badge-warning {
-        background: #fff3e0;
-        color: #f57c00;
+        .badge-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-warning {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Account Info Extractor Tool</h1>
+        <p class="subtitle">Quickly extract account configuration info from Gemini Business links and cookies</p>
+
+        <!-- Method 1: Extract from Link -->
+        <div class="section">
+            <h2>Method 1: Extract Team ID and CSESIDX from Link</h2>
+            <div class="alert alert-info">
+                <strong>Tip:</strong> `team_id` and `csesidx` can be automatically extracted from the Gemini Business link. If you have already extracted cookies from the Network tab, complete this step first to add the Team ID and CSESIDX.
+            </div>
+            
+            <div class="form-group">
+                <label for="geminiUrl">Gemini Business Link</label>
+                <input type="text" id="geminiUrl" placeholder="https://business.gemini.google/home/cid/8c7e316a-94ce-46e4-9af4-0d7c58db4914?csesidx=357164620">
+                <small style="color: #666; margin-top: 8px; display: block;">
+                    Example: <code>https://business.gemini.google/home/cid/8c7e316a-94ce-46e4-9af4-0d7c58db4914?csesidx=357164620</code>
+                </small>
+                <button class="btn btn-primary" onclick="extractFromUrl()" style="margin-top: 12px;">Extract from Link</button>
+            </div>
+        </div>
+
+        <!-- Method 2: Extract from Cookies -->
+        <div class="section">
+            <h2>Method 2: Extract from Browser Cookies</h2>
+            <div class="alert alert-warning">
+                <strong>Important:</strong> Please run this script on the Gemini Business page (business.gemini.google).
+            </div>
+
+            <h3 style="font-size: 16px; margin-bottom: 12px;">Method A: Automatic Extraction (Recommended)</h3>
+            <ol class="steps">
+                <li>Open the <a href="https://business.gemini.google" target="_blank">Gemini Business</a> page and log in.</li>
+                <li>Press F12 to open developer tools, then switch to the Console tab.</li>
+                <li>Copy the script below, paste it into the console, and press Enter to run.</li>
+                <li>The script will automatically extract cookie information and display it on the page.</li>
+                <li>Copy the displayed result and paste it into the "Cookie Extraction Result" box below.</li>
+            </ol>
+            
+            <div class="alert alert-warning" style="margin-top: 16px;">
+                <strong>⚠️ If Cookies are empty:</strong> Some cookies might be HttpOnly and cannot be read by JavaScript. Please use Method B to get them manually.
+            </div>
+            
+            <h3 style="font-size: 16px; margin-top: 24px; margin-bottom: 12px;">Method B: Extract Cookies from Network Requests (Easiest, Recommended)</h3>
+            <div class="alert alert-info" style="margin-bottom: 16px;">
+                <strong>💡 Tip:</strong> This method can only extract cookies; it cannot get the Team ID and CSESIDX. Please use 'Method 1' first to extract information from the link, or copy them manually from the link.
+            </div>
+            <div class="alert alert-info" style="margin-bottom: 16px;">
+                <strong>💡 Tip:</strong> This is the easiest method and works even if cookies are HttpOnly!
+            </div>
+            <ol class="steps">
+                <li>On the Gemini Business page, press F12 to open developer tools.</li>
+                <li>Switch to the <strong>Network</strong> tab.</li>
+                <li>Refresh the page (F5) or perform any action (e.g., send a message).</li>
+                <li>Find any request in the Network list (recommending <code>widgetStreamAssist</code> or <code>widgetCreateSession</code>).</li>
+                <li>Click the request and view the <strong>Headers</strong> tab.</li>
+                <li>Find the <code>Cookie:</code> line in the <strong>Request Headers</strong> section.</li>
+                <li>Copy the entire Cookie string (it's a very long string).</li>
+                <li>Paste it into the "Cookie Request Header" input box below and click "Parse Cookie Header".</li>
+            </ol>
+            
+            <div class="form-group" style="margin-top: 20px; padding: 16px; background: #f8f9fa; border-radius: 6px;">
+                <label for="cookieHeader" style="font-weight: 600;">Cookie Request Header (Copied from Network)</label>
+                <textarea id="cookieHeader" placeholder="Paste the full Cookie string copied from the Network request header, e.g., __Secure-C_SES=xxx; __Host-C_OSES=yyy; ..." rows="3" style="margin-top: 8px;"></textarea>
+                <button class="btn btn-primary" onclick="parseCookieHeader()" style="margin-top: 12px;">Parse Cookie Header</button>
+            </div>
+            
+            <h3 style="font-size: 16px; margin-top: 24px; margin-bottom: 12px;">Method C: Manual Extraction from Application Tab (Alternative)</h3>
+            <ol class="steps">
+                <li>On the Gemini Business page, press F12 to open developer tools.</li>
+                <li>Switch to the <strong>Application</strong> tab (Chrome) or <strong>Storage</strong> tab (Firefox).</li>
+                <li>On the left, expand <strong>Cookies</strong> → select <code>https://business.gemini.google</code>.</li>
+                <li>On the right, find the following cookies and copy their <strong>Value</strong>:
+                    <ul style="margin-top: 8px; margin-left: 20px;">
+                        <li><code>__Secure-C_SES</code> - copy the entire value</li>
+                        <li><code>__Host-C_OSES</code> - copy the entire value</li>
+                    </ul>
+                </li>
+                <li>Paste the copied values into the corresponding input boxes below.</li>
+            </ol>
+            
+            <div class="form-group" style="margin-top: 20px; padding: 16px; background: #f8f9fa; border-radius: 6px;">
+                <label for="manualSecureCSES" style="font-weight: 600;">Manually Enter __Secure-C_SES</label>
+                <textarea id="manualSecureCSES" placeholder="Value of __Secure-C_SES copied from Application/Cookies" rows="2" style="margin-top: 8px;"></textarea>
+            </div>
+            
+            <div class="form-group" style="padding: 16px; background: #f8f9fa; border-radius: 6px;">
+                <label for="manualHostCOSES" style="font-weight: 600;">Manually Enter __Host-C_OSES</label>
+                <textarea id="manualHostCOSES" placeholder="Value of __Host-C_OSES copied from Application/Cookies" rows="2" style="margin-top: 8px;"></textarea>
+                <button class="btn btn-primary" onclick="fillManualCookies()" style="margin-top: 12px;">Fill to Result</button>
+            </div>
+
+            <div class="form-group">
+                <label for="cookieScript">Browser Script (Run in Gemini Business page console)</label>
+                <div class="code-block" style="position: relative;">
+                    <code id="cookieScript">// Run this script in the Gemini Business page console
+(function() {
+    // More reliable method to get cookies
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) {
+            return parts.pop().split(';').shift();
+        }
+        return '';
     }
-</style>
+    
+    // Try multiple ways to get the cookie
+    const secureCSES = getCookie('__Secure-C_SES') || 
+                       document.cookie.match(/__Secure-C_SES=([^;]+)/)?.[1] || '';
+    const hostCOSES = getCookie('__Host-C_OSES') || 
+                      document.cookie.match(/__Host-C_OSES=([^;]+)/)?.[1] || '';
+    const userAgent = navigator.userAgent;
+    
+    // Get cid and csesidx from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const cid = window.location.pathname.match(/\/cid\/([^\/]+)/)?.[1] || '';
+    const csesidx = urlParams.get('csesidx') || '';
+    
+    const result = {
+        team_id: cid,
+        secure_c_ses: secureCSES,
+        host_c_oses: hostCOSES,
+        csesidx: csesidx,
+        user_agent: userAgent
+    };
+    
+    // Display the result
+    console.log('✅ Account info extracted successfully!');
+    console.log('📋 Please copy the following JSON content:');
+    console.log(JSON.stringify(result, null, 2));
+    
+    // Create a visual display (use createElement to avoid innerHTML)
+    const div = document.createElement('div');
+    div.style.cssText = 'position:fixed;top:20px;right:20px;background:white;padding:20px;border:2px solid #4285f4;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:99999;max-width:500px;max-height:80vh;overflow:auto;font-family:sans-serif;';
+    
+    // Create title
+    const title = document.createElement('h3');
+    title.textContent = '✅ Account Info Extracted';
+    title.style.cssText = 'margin:0 0 12px 0;color:#4285f4;';
+    div.appendChild(title);
+    
+    // Create textarea
+    const textarea = document.createElement('textarea');
+    textarea.value = JSON.stringify(result, null, 2);
+    textarea.readOnly = true;
+    textarea.style.cssText = 'width:100%;height:200px;font-family:monospace;font-size:12px;padding:8px;border:1px solid #ddd;border-radius:4px;resize:none;';
+    div.appendChild(textarea);
+    
+    // Create button container
+    const btnContainer = document.createElement('div');
+    btnContainer.style.cssText = 'margin-top:8px;display:flex;gap:8px;';
+    
+    // Copy button
+    const copyBtn = document.createElement('button');
+    copyBtn.textContent = '📋 Copy JSON';
+    copyBtn.style.cssText = 'padding:8px 16px;background:#4285f4;color:white;border:none;border-radius:4px;cursor:pointer;flex:1;';
+    copyBtn.onclick = function() {
+        textarea.select();
+        textarea.setSelectionRange(0, textarea.value.length);
+        try {
+            document.execCommand('copy');
+            copyBtn.textContent = '✅ Copied!';
+            setTimeout(() => {
+                copyBtn.textContent = '📋 Copy JSON';
+            }, 2000);
+        } catch(e) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textarea.value).then(() => {
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = '📋 Copy JSON';
+                    }, 2000);
+                });
+            }
+        }
+    };
+    btnContainer.appendChild(copyBtn);
+    
+    // Close button
+    const closeBtn = document.createElement('button');
+    closeBtn.textContent = 'Close';
+    closeBtn.style.cssText = 'padding:8px 16px;background:#ea4335;color:white;border:none;border-radius:4px;cursor:pointer;flex:1;';
+    closeBtn.onclick = function() {
+        div.remove();
+    };
+    btnContainer.appendChild(closeBtn);
+    
+    div.appendChild(btnContainer);
+    document.body.appendChild(div);
+    
+    // If cookies are empty, show a warning
+    if (!secureCSES || !hostCOSES) {
+        const warning = document.createElement('div');
+        warning.textContent = '⚠️ Warning: Cookie information is empty. Please ensure you are running this script on the Gemini Business page.';
+        warning.style.cssText = 'margin-top:8px;padding:8px;background:#fff3e0;color:#f57c00;border-radius:4px;font-size:12px;';
+        div.insertBefore(warning, textarea);
+    }
+    
+    return result;
+})();</code>
+                    <button class="copy-btn" onclick="copyScript()">Copy Script</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cookieResult">Cookie Extraction Result (Paste JSON from console)</label>
+                <textarea id="cookieResult" placeholder='Paste the JSON result copied from the browser console...'></textarea>
+                <button class="btn btn-primary" onclick="parseCookieResult()" style="margin-top: 12px;">Parse Cookie Result</button>
+            </div>
+        </div>
+
+        <!-- Result Display -->
+        <div class="section">
+            <h2>Extraction Result</h2>
+            <div class="result-box" id="resultBox">
+                <p style="color: #999; text-align: center; margin: 20px 0;">Extracted information will be displayed here</p>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="copyResult()">📋 Copy Full JSON</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="section">
+            <h2>Instructions</h2>
+            <div class="alert alert-info">
+                <strong>Recommended Workflow:</strong>
+                <ol style="margin-top: 8px; padding-left: 20px;">
+                    <li>Run the cookie extraction script on the Gemini Business page (Method 2).</li>
+                    <li>Copy the JSON result output by the script.</li>
+                    <li>Paste it into the "Cookie Extraction Result" box above and parse.</li>
+                    <li>Or, directly copy the full JSON from the "Extraction Result" section.</li>
+                    <li>When adding an account in the management console, paste the JSON into the "Paste Account JSON" box.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let extractedData = {
+            team_id: '',
+            secure_c_ses: '',
+            host_c_oses: '',
+            csesidx: '',
+            user_agent: ''
+        };
+
+        function extractFromUrl() {
+            const url = document.getElementById('geminiUrl').value.trim();
+            if (!url) {
+                alert('Please enter the Gemini Business link');
+                return;
+            }
+
+            try {
+                const urlObj = new URL(url);
+                const pathParts = urlObj.pathname.split('/');
+                const cidIndex = pathParts.indexOf('cid');
+                const teamId = cidIndex >= 0 && pathParts[cidIndex + 1] ? pathParts[cidIndex + 1] : '';
+                const csesidx = urlObj.searchParams.get('csesidx') || '';
+
+                let extracted = false;
+                if (teamId) {
+                    extractedData.team_id = teamId;
+                    extracted = true;
+                }
+                if (csesidx) {
+                    extractedData.csesidx = csesidx;
+                    extracted = true;
+                }
+
+                if (extracted) {
+                    updateResultBox();
+                    showToast('Extracted Team ID and CSESIDX!', 'success');
+                } else {
+                    showToast('Could not find team_id or csesidx, please check the link format', 'error');
+                }
+            } catch (e) {
+                alert('Invalid link format: ' + e.message);
+            }
+        }
+
+        function parseCookieResult() {
+            const result = document.getElementById('cookieResult').value.trim();
+            if (!result) {
+                alert('Please paste the cookie extraction result first');
+                return;
+            }
+
+            try {
+                const data = JSON.parse(result);
+                extractedData.team_id = data.team_id || extractedData.team_id;
+                extractedData.secure_c_ses = data.secure_c_ses || '';
+                extractedData.host_c_oses = data.host_c_oses || '';
+                extractedData.csesidx = data.csesidx || extractedData.csesidx;
+                extractedData.user_agent = data.user_agent || navigator.userAgent;
+
+                updateResultBox();
+                showToast('Cookie information parsed successfully!', 'success');
+            } catch (e) {
+                alert('Invalid JSON format: ' + e.message);
+            }
+        }
+
+        function parseCookieHeader() {
+            const cookieHeader = document.getElementById('cookieHeader').value.trim();
+            if (!cookieHeader) {
+                showToast('Please paste the Cookie request header first', 'error');
+                return;
+            }
+            
+            const cookies = {};
+            cookieHeader.split(';').forEach(cookie => {
+                const trimmed = cookie.trim();
+                if (trimmed) {
+                    const [key, ...valueParts] = trimmed.split('=');
+                    if (key && valueParts.length > 0) {
+                        cookies[key.trim()] = valueParts.join('=');
+                    }
+                }
+            });
+            
+            const secureCSES = cookies['__Secure-C_SES'] || cookies['__Secure-C_SES;'] || '';
+            const hostCOSES = cookies['__Host-C_OSES'] || cookies['__Host-C_OSES;'] || '';
+            
+            if (!secureCSES && !hostCOSES) {
+                showToast('Could not find __Secure-C_SES or __Host-C_OSES. Please check if the cookie string is correct.', 'error');
+                return;
+            }
+            
+            if (secureCSES) {
+                extractedData.secure_c_ses = secureCSES;
+            }
+            if (hostCOSES) {
+                extractedData.host_c_oses = hostCOSES;
+            }
+            
+            if (!extractedData.user_agent) {
+                extractedData.user_agent = navigator.userAgent;
+            }
+            
+            updateResultBox();
+            
+            if (!extractedData.team_id || !extractedData.csesidx) {
+                showToast("Cookies extracted! Please use 'Method 1: Extract from Link' to add the Team ID and CSESIDX.", 'info');
+            } else {
+                showToast('Cookie information parsed and filled!', 'success');
+            }
+        }
+
+        function fillManualCookies() {
+            const secureCSES = document.getElementById('manualSecureCSES').value.trim();
+            const hostCOSES = document.getElementById('manualHostCOSES').value.trim();
+            
+            if (!secureCSES && !hostCOSES) {
+                showToast('Please enter at least one cookie value', 'error');
+                return;
+            }
+            
+            if (secureCSES) {
+                extractedData.secure_c_ses = secureCSES;
+            }
+            if (hostCOSES) {
+                extractedData.host_c_oses = hostCOSES;
+            }
+            
+            if (!extractedData.user_agent) {
+                extractedData.user_agent = navigator.userAgent;
+            }
+            
+            updateResultBox();
+            showToast('Cookie information has been filled!', 'success');
+        }
+
+        function updateResultBox() {
+            const resultBox = document.getElementById('resultBox');
+            const hasData = Object.values(extractedData).some(v => v);
+            
+            if (!hasData) {
+                resultBox.innerHTML = '<p style="color: #999; text-align: center; margin: 20px 0;">Extracted information will be displayed here</p>';
+                resultBox.classList.remove('filled');
+                return;
+            }
+
+            const jsonStr = JSON.stringify(extractedData, null, 2);
+            resultBox.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h3 style="margin: 0; color: #2e7d32;">✅ Extraction Result</h3>
+                    <span class="badge badge-success">Extracted</span>
+                </div>
+                <div class="code-block" style="position: relative; margin: 0;">
+                    <code>${jsonStr}</code>
+                    <button class="copy-btn" onclick="copyResult()">Copy</button>
+                </div>
+                <div style="margin-top: 12px; font-size: 13px; color: #666;">
+                    <div><strong>Team ID:</strong> ${extractedData.team_id || '<span style="color:#999;">Not Extracted</span>'}</div>
+                    <div style="margin-top: 4px;"><strong>CSESIDX:</strong> ${extractedData.csesidx || '<span style="color:#999;">Not Extracted</span>'}</div>
+                    <div style="margin-top: 4px;"><strong>Secure-C_SES:</strong> ${extractedData.secure_c_ses ? 'Extracted (' + extractedData.secure_c_ses.length + ' characters)' : '<span style="color:#999;">Not Extracted</span>'}</div>
+                    <div style="margin-top: 4px;"><strong>Host-C_OSES:</strong> ${extractedData.host_c_oses ? 'Extracted (' + extractedData.host_c_oses.length + ' characters)' : '<span style="color:#999;">Not Extracted</span>'}</div>
+                    <div style="margin-top: 4px;"><strong>User Agent:</strong> ${extractedData.user_agent ? 'Extracted' : '<span style="color:#999;">Not Extracted</span>'}</div>
+                </div>
+            `;
+            resultBox.classList.add('filled');
+        }
+
+        function copyResult() {
+            const jsonStr = JSON.stringify(extractedData, null, 2);
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = jsonStr;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            textarea.style.top = '0';
+            textarea.setAttribute('readonly', '');
+            document.body.appendChild(textarea);
+            
+            textarea.select();
+            textarea.setSelectionRange(0, jsonStr.length); 
+            
+            try {
+                const success = document.execCommand('copy');
+                document.body.removeChild(textarea);
+                
+                if (success) {
+                    showToast('Copied to clipboard!', 'success');
+                } else {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(jsonStr).then(() => {
+                            showToast('Copied to clipboard!', 'success');
+                        }).catch(() => {
+                            showToast('Copy failed. Please select and copy manually', 'error');
+                        });
+                    } else {
+                        showToast('Copy failed. Please select and copy manually', 'error');
+                    }
+                }
+            } catch (e) {
+                document.body.removeChild(textarea);
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(jsonStr).then(() => {
+                        showToast('Copied to clipboard!', 'success');
+                    }).catch(() => {
+                        showToast('Copy failed. Please select and copy manually', 'error');
+                    });
+                } else {
+                    showToast('Copy failed. Please select and copy manually', 'error');
+                }
+            }
+        }
+
+        function copyScript() {
+            const codeElement = document.getElementById('cookieScript');
+            if (!codeElement) {
+                showToast('Could not find the script element', 'error');
+                return;
+            }
+            
+            const script = codeElement.textContent || codeElement.innerText || '';
+            
+            if (!script) {
+                showToast('Script content is empty', 'error');
+                return;
+            }
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = script;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            textarea.style.top = '0';
+            textarea.setAttribute('readonly', '');
+            document.body.appendChild(textarea);
+            
+            textarea.select();
+            textarea.setSelectionRange(0, script.length);
+            
+            try {
+                const success = document.execCommand('copy');
+                document.body.removeChild(textarea);
+                
+                if (success) {
+                    showToast('Script copied!', 'success');
+                } else {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(script).then(() => {
+                            showToast('Script copied!', 'success');
+                        }).catch(() => {
+                            showToast('Copy failed. Please select and copy manually', 'error');
+                        });
+                    } else {
+                        showToast('Copy failed. Please select and copy manually', 'error');
+                    }
+                }
+            } catch (e) {
+                document.body.removeChild(textarea);
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(script).then(() => {
+                        showToast('Script copied!', 'success');
+                    }).catch(() => {
+                        showToast('Copy failed. Please select and copy manually', 'error');
+                    });
+                } else {
+                    showToast('Copy failed. Please select and copy manually', 'error');
+                }
+            }
+        }
+
+        function clearAll() {
+            extractedData = {
+                team_id: '',
+                secure_c_ses: '',
+                host_c_oses: '',
+                csesidx: '',
+                user_agent: ''
+            };
+            document.getElementById('geminiUrl').value = '';
+            document.getElementById('cookieResult').value = '';
+            document.getElementById('cookieHeader').value = '';
+            document.getElementById('manualSecureCSES').value = '';
+            document.getElementById('manualHostCOSES').value = '';
+            updateResultBox();
+            showToast('Cleared', 'info');
+        }
+
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position:fixed;bottom:20px;right:20px;padding:12px 20px;background:' + 
+                (type === 'success' ? '#34a853' : type === 'error' ? '#ea4335' : '#4285f4') + 
+                ';color:white;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:10000;';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
