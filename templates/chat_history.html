@@ -1,81 +1,81 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-theme="light">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business Gemini 智能对话</title>
+    <title>Business Gemini - Intelligent Conversation</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/chat_history.css') }}">
     
 </head>
 <body>
 
-    <!-- 顶部栏 -->
+    <!-- Top Bar -->
     <div class="header">
-        <h1>Business Gemini <span style="font-weight: 400; color: var(--text-muted); font-size: 0.8em; margin-left: 8px;">智能对话</span></h1>
+        <h1>Business Gemini <span style="font-weight: 400; color: var(--text-muted); font-size: 0.8em; margin-left: 8px;">Intelligent Conversation</span></h1>
         <div class="header-controls">
             <div class="model-selector">
-                <label for="modelSelect">模型:</label>
+                <label for="modelSelect">Model:</label>
                 <select id="modelSelect">
-                    <option value="gemini-enterprise">加载中...</option>
+                    <option value="gemini-enterprise">Loading...</option>
                 </select>
             </div>
             <div class="mode-switch">
-                <span>非流式</span>
+                <span>Non-streaming</span>
                 <label class="switch">
                     <input type="checkbox" id="streamMode" checked>
                     <span class="slider"></span>
                 </label>
-                <span>流式</span>
+                <span>Streaming</span>
             </div>
-            <button class="theme-toggle" onclick="showApiKeyModal()" title="设置 API Key">
+            <button class="theme-toggle" onclick="showApiKeyModal()" title="Set API Key">
                 🔑 API Key
             </button>
-            <button class="theme-toggle clear" onclick="clearChat()" title="清空当前对话">
-                🗑️ 清空
+            <button class="theme-toggle clear" onclick="clearChat()" title="Clear Current Conversation">
+                🗑️ Clear
             </button>
-            <button class="theme-toggle home" onclick="window.location.href='/'" title="返回首页">
-                <span>🏠&nbsp;返回首页</span>
+            <button class="theme-toggle home" onclick="window.location.href='/'" title="Back to Home">
+                <span>🏠&nbsp;Back to Home</span>
             </button>
-            <button class="theme-toggle" onclick="toggleTheme()" title="切换主题">
+            <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
                 <span id="themeIcon">☀️</span>
             </button>
         </div>
     </div>
 
-    <!-- 主布局 -->
+    <!-- Main Layout -->
     <div class="main-layout">
-        <!-- 侧边栏 -->
+        <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
-                <h2>对话列表</h2>
-                <button class="new-conversation-btn" onclick="createNewConversation()" title="新建对话">
-                    ➕ 新建
+                <h2>Conversation List</h2>
+                <button class="new-conversation-btn" onclick="createNewConversation()" title="New Conversation">
+                    ➕ New
                 </button>
             </div>
             <div class="conversations-list" id="conversationsList">
-                <!-- 对话列表会通过 JS 动态插入到这里 -->
+                <!-- Conversation list will be dynamically inserted here by JS -->
             </div>
         </div>
 
-        <!-- 聊天内容区 -->
+        <!-- Chat Content Area -->
         <div class="chat-container" id="chatContainer">
-            <!-- 消息会通过 JS 动态插入到这里 -->
+            <!-- Messages will be dynamically inserted here by JS -->
         </div>
     </div>
 
-    <!-- 修改底部输入区，添加文件上传按钮 -->
+    <!-- Modified bottom input area with file upload button -->
     <div class="input-area">
         <div class="uploaded-files-container" id="uploadedFilesContainer" style="display: none;">
             <div class="uploaded-files" id="uploadedFiles">
-                <!-- 已上传的文件标签会动态插入这里 -->
+                <!-- Uploaded file tags will be dynamically inserted here -->
             </div>
         </div>
         <div class="input-wrapper">
             <input type="file" id="fileInput" multiple accept="*">
-            <button class="file-upload-btn" id="uploadBtn" onclick="document.getElementById('fileInput').click()" title="上传文件">
+            <button class="file-upload-btn" id="uploadBtn" onclick="document.getElementById('fileInput').click()" title="Upload File">
                 📎
             </button>
-            <textarea id="userInput" placeholder="输入消息与 Business Gemini 对话..." onkeydown="handleKeyDown(event)"></textarea>
+            <textarea id="userInput" placeholder="Type a message to chat with Business Gemini..." onkeydown="handleKeyDown(event)"></textarea>
             <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
         </div>
     </div>
@@ -83,15 +83,15 @@
     <script src="{{ url_for('static', filename='js/chat_history.js') }}"></script>
     
 
-    <!-- API Key 设置弹窗 -->
+    <!-- API Key Settings Modal -->
     <div id="apiKeyModal" class="api-key-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; align-items: center; justify-content: center;">
         <div class="api-key-modal-content" style="background: var(--card-bg); border-radius: 12px; padding: 24px; max-width: 500px; width: 90%; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);">
-            <h3 style="margin: 0 0 16px 0; color: var(--text-main); font-size: 18px;">设置 API Key</h3>
-            <p style="margin: 0 0 16px 0; color: var(--text-muted); font-size: 14px;">请输入您的 API Key 以使用服务。API Key 将保存在本地浏览器中。</p>
-            <input type="password" id="apiKeyInput" placeholder="输入 API Key" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--input-bg); color: var(--text-main); font-size: 14px; margin-bottom: 16px; box-sizing: border-box;">
+            <h3 style="margin: 0 0 16px 0; color: var(--text-main); font-size: 18px;">Set API Key</h3>
+            <p style="margin: 0 0 16px 0; color: var(--text-muted); font-size: 14px;">Please enter your API Key to use the service. The API Key will be saved in your local browser.</p>
+            <input type="password" id="apiKeyInput" placeholder="Enter API Key" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--input-bg); color: var(--text-main); font-size: 14px; margin-bottom: 16px; box-sizing: border-box;">
             <div style="display: flex; gap: 12px; justify-content: flex-end;">
-                <button onclick="closeApiKeyModal()" style="padding: 10px 20px; border: 1px solid var(--border); border-radius: 8px; background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px;">取消</button>
-                <button id="saveApiKeyBtn" onclick="saveApiKey()" style="padding: 10px 20px; border: none; border-radius: 8px; background: var(--primary); color: white; cursor: pointer; font-size: 14px; font-weight: 500;">保存</button>
+                <button onclick="closeApiKeyModal()" style="padding: 10px 20px; border: 1px solid var(--border); border-radius: 8px; background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px;">Cancel</button>
+                <button id="saveApiKeyBtn" onclick="saveApiKey()" style="padding: 10px 20px; border: none; border-radius: 8px; background: var(--primary); color: white; cursor: pointer; font-size: 14px; font-weight: 500;">Save</button>
             </div>
         </div>
     </div>
